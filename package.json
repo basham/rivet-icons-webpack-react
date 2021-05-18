@@ -5,6 +5,10 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "deploy": "run-s build deploy-add deploy-commit deploy-push",
+    "deploy-add": "git add docs/*",
+    "deploy-commit": "git commit -m 'Deploy'",
+    "deploy-push": "git push",
     "start": "webpack serve --open"
   },
   "repository": {
