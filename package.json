@@ -9,7 +9,7 @@
     "deploy-add": "git add docs/*",
     "deploy-commit": "git commit -m 'Deploy'",
     "deploy-push": "git push",
-    "start": "webpack serve --open"
+    "start": "webpack serve --hot --open"
   },
   "repository": {
     "type": "git",

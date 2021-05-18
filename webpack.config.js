@@ -1,4 +1,22 @@
 const path = require('path')
+const { buildIcons } = require('rivet-icons')
+
+class RivetIconsWebpackPlugin {
+  constructor (options) {
+    this.options = options
+  }
+  apply (compiler) {
+    const pluginName = RivetIconsWebpackPlugin.name
+    const options = {
+      ...this.options,
+      out: path.resolve(compiler.options.output.path, this.options.out || '.')
+    }
+    compiler.hooks.emit.tapPromise(
+      pluginName,
+      () => buildIcons(options)
+    )
+  }
+}
 
 module.exports = {
   entry: {
@@ -8,6 +26,12 @@ module.exports = {
     react: 'React',
     'react-dom': 'ReactDOM'
   },
+  plugins: [
+    new RivetIconsWebpackPlugin({
+      icons: ['arrow*'],
+      out: 'assets'
+    })
+  ],
   output: {
     filename: `[name].js`,
     path: path.resolve('./docs')
@@ -34,5 +58,8 @@ module.exports = {
         }
       }
     ]
+  },
+  devServer: {
+    contentBase: './docs'
   }
 }
