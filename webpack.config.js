@@ -1,47 +1,26 @@
 const path = require('path')
-const { buildIcons } = require('rivet-icons')
 
-class RivetIconsWebpackPlugin {
-  constructor (options) {
-    this.options = options
-  }
-  apply (compiler) {
-    const pluginName = RivetIconsWebpackPlugin.name
-    const options = {
-      ...this.options,
-      out: path.resolve(compiler.options.output.path, this.options.out || '.')
-    }
-    compiler.hooks.emit.tapPromise(
-      pluginName,
-      () => buildIcons(options)
-    )
-  }
-}
+const srcPath = path.resolve('./src')
+const outPath = path.resolve('./docs')
 
 module.exports = {
   entry: {
-    app: path.resolve('./src/index.js')
+    app: path.resolve(srcPath, 'index.js')
   },
   externals: {
     react: 'React',
     'react-dom': 'ReactDOM'
   },
-  plugins: [
-    new RivetIconsWebpackPlugin({
-      icons: ['arrow*'],
-      out: 'assets'
-    })
-  ],
   output: {
     filename: `[name].js`,
-    path: path.resolve('./docs')
+    path: outPath
   },
   module: {
     rules: [
       {
         test: /\.(js|jsx)$/,
-        exclude: /node_modules/,
-        use: ['babel-loader']
+        use: ['babel-loader'],
+        include: srcPath
       },
       {
         resourceQuery: /asset/,
@@ -51,15 +30,12 @@ module.exports = {
         }
       },
       {
-        resourceQuery: /public/,
+        resourceQuery: /root/,
         type: 'asset/resource',
         generator: {
           filename: '[base]'
         }
       }
     ]
-  },
-  devServer: {
-    contentBase: './docs'
   }
 }
