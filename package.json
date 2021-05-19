@@ -4,16 +4,16 @@
   "description": "Test repo for incorporating Rivet Icons with a Webpack/React front-end.",
   "main": "index.js",
   "scripts": {
-    "build": "run-s build-reset build-icons build-webpack",
-    "build-reset": "rimraf build docs",
+    "build": "run-s rmdir-build rmdir-docs build-icons build-webpack",
     "build-icons": "node scripts/icons.js",
     "build-webpack": "webpack --mode=production",
     "deploy": "run-s build deploy-add deploy-commit deploy-push",
     "deploy-add": "git add docs/*",
     "deploy-commit": "git commit -m 'Deploy'",
     "deploy-push": "git push",
-    "start": "run-s start-reset build-icons start-webpack",
-    "start-reset": "rimraf build",
+    "rmdir-build": "rimraf build",
+    "rmdir-docs": "rimraf docs",
+    "start": "run-s rmdir-build build-icons start-webpack",
     "start-webpack": "webpack serve --open --hot --mode=development"
   },
   "repository": {
