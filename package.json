@@ -12,7 +12,8 @@
     "deploy-add": "git add docs/*",
     "deploy-commit": "git commit -m 'Deploy'",
     "deploy-push": "git push",
-    "start": "run-s build-reset build-icons start-webpack",
+    "start": "run-s start-reset build-icons start-webpack",
+    "start-reset": "rimraf build",
     "start-webpack": "webpack serve --open --hot --mode=development"
   },
   "repository": {
