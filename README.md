@@ -224,3 +224,104 @@ import 'react-dom/umd/react-dom.production.min.js?asset'
 // ./docs/assets/react.production.min.js
 // ./docs/assets/react-dom.production.min.js
 ```
+
+This same resource query can be used to copy other assets, such as [Rivet's `rivet-core`](https://github.com/indiana-university/rivet-source) (make sure to install it), assets from `rivet-icon`, and custom build files.
+
+```js
+// ./src/index.js
+import 'rivet-core/css/rivet.min.css?asset'
+import 'rivet-icons/dist/rivet-icon-element.js?asset'
+import 'rivet-icons/dist/rivet-icons.css?asset'
+import '../build/rivet-icons.js?asset'
+
+// Webpack outputs:
+// ./docs/assets/rivet.min.css
+// ./docs/assets/rivet-icon-element.js
+// ./docs/assets/rivet-icons.css
+// ./docs/assets/rivet-icons.js
+```
+
+## 4. Set up the page
+
+Now that Webpack is building and copying assets, the browser needs an entry point to the application. Create `./src/index.html`. Reference the dependencies relative to the out folder.
+
+```html
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My App</title>
+    <link rel="stylesheet" href="./assets/rivet.min.css">
+    <link rel="stylesheet" href="./assets/rivet-icons.css">
+    <script defer src="./assets/react.production.min.js"></script>
+    <script defer src="./assets/react-dom.production.min.js"></script>
+    <script defer src="./assets/rivet-icons.js"></script>
+    <script type="module" src="./assets/rivet-icon-element.js"></script>
+    <script defer src="./app.js"></script>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+  </body>
+</html>
+```
+
+A new resource query can be used to copy files to the root of the out folder. This could be used for the index page.
+
+```js
+// webpack.config.js
+{
+  module: {
+    rules: [
+      {
+        resourceQuery: /root/,
+        type: 'asset/resource',
+        generator: {
+          filename: '[base]'
+        }
+      }
+    ]
+  }
+}
+```
+
+```js
+// ./src/index.js
+import './index.html?root'
+
+// Webpack outputs:
+// ./docs/index.html
+```
+
+Because all dependencies were imported with Webpack through the entry file (`./src/index.js`), Webpack Dev Server is aware of them and will serve them. Use the [`devServer.contentBase` configuration](https://webpack.js.org/configuration/dev-server/#devservercontentbase) if there are files needed to be included by Webpack Dev Server but excluded from the out folder.
+
+Run the development environment. Confirm "Hello World" displays and that all resources are served.
+
+```
+npm run start
+```
+
+Finally, set up a mount point for React and render to it.
+
+```html
+<body>
+  <div id="app"></div>
+</body>
+```
+
+```js
+// ./src/index.js
+import React from 'react'
+import { render } from 'react-dom'
+
+function App () {
+  return (
+    <h1>Hello World, from React</h1>
+  )
+}
+
+render(
+  <App />,
+  document.getElementById('app')
+)
+```
