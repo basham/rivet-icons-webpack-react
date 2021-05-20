@@ -199,6 +199,7 @@ import 'react-dom/umd/react-dom.production.min.js?asset'
 Resource queries provide a hook for Webpack to apply specific rules to the given import. The `?asset` query is a custom [Module Rule](https://webpack.js.org/configuration/module/#rule) that will copy the imported file to a `assets` folder in the out folder.
 
 ```js
+// webpack.config.js
 {
   module: {
     rules: [
