@@ -133,7 +133,7 @@ Extend the npm `build` script to delete the out folder (`./docs`) before every r
 }
 ```
 
-Add a `start` script to run a development environment with [Webpack Dev Server](https://webpack.js.org/configuration/dev-server/). This builds the icon set before starting the server. But since it doesn't use the out folder, it doesn't remove it.
+Add a `start` script to run a development environment with [Webpack Dev Server](https://webpack.js.org/configuration/dev-server/). This builds the icon set before starting the server. But it doesn't delete the out folder, since it doesn't use it (unlike the `build` script).
 
 ```json
 {
@@ -142,4 +142,29 @@ Add a `start` script to run a development environment with [Webpack Dev Server](
     "start-webpack": "webpack serve --open --hot --mode=development"
   }
 }
+```
+
+## 3. Set up React
+
+By default, Webpack bundles all imported dependencies into a single out file. This can lead to performance problems when importing large dependencies or using dependencies that would be better shared across multiple entry points or pages. Additionally, many libraries, such as React, provide production-ready bundles that do not need further processing by the consuming application.
+
+Extend `webpack.config.js` with an [`externals` configuration](https://webpack.js.org/configuration/externals/). The key is the name of the import. The value is the name of the [`window` global variable](https://developer.mozilla.org/en-US/docs/Web/API/Window) of that library.
+
+```js
+{
+  externals: {
+    react: 'React',
+    'react-dom': 'ReactDOM'
+  }
+}
+```
+
+```js
+// This:
+import React from 'react'
+import ReactDOM from 'react-dom'
+
+// Is interpreted as this:
+const React = window.React
+const ReactDOM = window.ReactDOM
 ```
