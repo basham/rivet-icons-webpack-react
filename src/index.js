@@ -8,11 +8,21 @@ import './index.html?root'
 
 import React from 'react'
 import { render } from 'react-dom'
+import heart from 'rivet-icons/dist/rvt-icon-heart.html'
+
+function HeartIcon () {
+  return (
+    <span
+      className='rvt-icon'
+      dangerouslySetInnerHTML={{ __html: heart }} />
+  )
+}
 
 function App () {
   return (
     <>
-      <rvt-icon name="arrow-down" />
+      <rvt-icon name='arrow-down' />
+      <HeartIcon />
     </>
   )
 }

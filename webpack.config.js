@@ -23,6 +23,10 @@ module.exports = {
         include: srcPath
       },
       {
+        test: /\.html$/,
+        type: 'asset/source'
+      },
+      {
         resourceQuery: /asset/,
         type: 'asset/resource',
         generator: {
