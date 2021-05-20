@@ -4,10 +4,17 @@ This repo shows how to make [Rivet Icons](https://github.com/indiana-university/
 
 Goals:
 
-1. Build a custom icon set, with select Rivet icons and custom icons.
-1. Import icon dependencies with Webpack.
-1. Use the `<rvt-icon>` custom element inside and outside of React.
-1. Use icons without the `<rvt-icon>` custom element.
+- Build a custom icon set, with select Rivet icons and custom icons.
+- Import icon dependencies with Webpack.
+- Use the `<rvt-icon>` custom element inside and outside of React.
+- Use icons without the `<rvt-icon>` custom element.
+
+## Contents
+
+1. [Build a custom icon set](#1-build-a-custom-icon-set)
+1. [Set up Webpack](#2-set-up-webpack)
+1. [Set up React](#3-set-up-react)
+1. [Set up the page](#4-set-up-the-page)
 
 ## 1. Build a custom icon set
 
