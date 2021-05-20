@@ -40,13 +40,13 @@ Add the build folder to `.gitignore`. This folder is meant for temporary files, 
 build
 ```
 
-Install [`npm-run-all`](https://github.com/mysticatea/npm-run-all) and [`rimraf`](https://github.com/isaacs/rimraf). `npm-run-all` sequences scripts to run in a cross-platform way (macOS and Windows). `rimraf` recursively removes folders.
+Install [`npm-run-all`](https://github.com/mysticatea/npm-run-all) and [`rimraf`](https://github.com/isaacs/rimraf). `npm-run-all` sequences scripts. `rimraf` recursively deletes folders.
 
 ```
 npm install --save-dev npm-run-all rimraf
 ```
 
-Add npm scripts to `package.json` to build the icons. The `build` script triggers the `./build` folder to be removed, then generates the custom icon set from `./scripts/icons.js`.
+Add npm scripts to `package.json` to build the icons. The `build` script triggers the `./build` folder to be deleted, then generates the custom icon set from `./scripts/icons.js`.
 
 ```json
 {
@@ -72,7 +72,7 @@ Install [Webpack](https://webpack.js.org/).
 npm install --save-dev webpack webpack-cli webpack-dev-server
 ```
 
-Install [Babel](https://babeljs.io/) and supplemental packages. These allow Babel to transpile the code for older browsers, interpret React JSX, and integrate with Webpack.
+Install [Babel](https://babeljs.io/) and supplemental packages. These allow Babel to transpile the code for older browsers (`@babel/preset-env`), interpret React JSX (`@babel/preset-react`), and integrate with Webpack (`babel-loader`).
 
 ```
 npm install --save-dev @babel/core @babel/preset-env @babel/preset-react babel-loader
@@ -94,6 +94,7 @@ Configure Webpack with a `webpack.config.js` file. The entry point for the appli
 **Note:** An out folder other than `./docs` is likely more appropriate for a real project. The folder name is a limitation of using GitHub Pages to host the generated files. Additionally, the out folder should likely be added to `.gitignore`, to keep derived files out of the repo. It was not done in the case of this project, to make it easy to see the output, without installing the project.
 
 ```js
+// webpack.config.js
 const path = require('path')
 
 const srcPath = path.resolve('./src')
@@ -119,7 +120,7 @@ module.exports = {
 }
 ```
 
-Extend the npm `build` script to delete the out folder (`./docs`) before every run and run Webpack after building the icon set.
+Extend the npm `build` script to delete the out folder (`./docs`) before every run, and run Webpack after building the icon set.
 
 ```json
 {
@@ -133,7 +134,7 @@ Extend the npm `build` script to delete the out folder (`./docs`) before every r
 }
 ```
 
-Add a `start` script to run a development environment with [Webpack Dev Server](https://webpack.js.org/configuration/dev-server/). This builds the icon set before starting the server. But it doesn't delete the out folder, since it doesn't use it (unlike the `build` script).
+Add a `start` script to run a development environment with [Webpack Dev Server](https://webpack.js.org/configuration/dev-server/). This builds the icon set before starting the server. It doesn't delete the out folder, since it doesn't use it (unlike the `build` script).
 
 ```json
 {
@@ -151,6 +152,7 @@ By default, Webpack bundles all imported dependencies into a single out file. Th
 Extend `webpack.config.js` with an [`externals` configuration](https://webpack.js.org/configuration/externals/). The key is the name of the import. The value is the name of the [`window` global variable](https://developer.mozilla.org/en-US/docs/Web/API/Window) of that library.
 
 ```js
+// webpack.config.js
 {
   externals: {
     react: 'React',
@@ -171,14 +173,14 @@ const ReactDOM = window.ReactDOM
 
 At this point, React could be referenced by an external provider, like [UNPKG](https://unpkg.com/). These links go to the latest production bundles that can be used in any environment (the browser or Node).
 
-**Note:** These scripts are placed in `<head>` and use the [`defer` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-defer). This means the scripts are requested early, they don't block rendering the rest of the page, and they get processed in declaration order after the page is loaded. It behaves similar to placing the scripts at the end of `<body>`, but since the network request happens earlier, it finishes faster.
-
 ```html
 <head>
   <script defer src="https://unpkg.com/react/umd/react.production.min.js"></script>
   <script defer src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
 </head>
 ```
+
+**Note:** These scripts are placed in `<head>` and use the [`defer` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-defer). This means the scripts are requested early, they don't block rendering the rest of the page, and they get processed in declaration order after the page is loaded. It behaves similar to placing the scripts at the end of `<body>`, but since the network request happens earlier, it finishes faster.
 
 While it is fine to use external services for some cases, for production, it is likely better to directly control and provide these resources. The application should declare these dependencies in the code, so then Webpack can essentially copy-and-paste the files into the out folder.
 
@@ -188,7 +190,7 @@ Install React.
 npm install --save react react-dom
 ```
 
-In the entry file, import the production-ready React dependencies and add a `?asset` [resource query](https://webpack.js.org/configuration/module/#ruleresourcequery) to the end. This should be done only once in the application, and ideally as early as possible.
+In the entry file, import the production-ready React dependencies and add the [resource query](https://webpack.js.org/configuration/module/#ruleresourcequery) `?asset` to the end. This should be done only once in the application, and ideally as early as possible.
 
 ```js
 // ./src/index.js
@@ -266,7 +268,7 @@ Now that Webpack is building and copying assets, the browser needs an entry poin
 </html>
 ```
 
-A new resource query can be used to copy files to the root of the out folder. This could be used for the index page.
+A new resource query can be used to copy files to the root of the out folder, rather than to the `assets` subfolder. This could be used for the index page.
 
 ```js
 // webpack.config.js
@@ -301,7 +303,7 @@ Run the development environment. Confirm "Hello World" displays and that all res
 npm run start
 ```
 
-Finally, set up a mount point for React and render to it.
+Finally, set up a mount point for React and render to it. Confirm "Hello World, from React" displays.
 
 ```html
 <body>
