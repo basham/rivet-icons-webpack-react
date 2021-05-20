@@ -1,6 +1,6 @@
 # Rivet Icons with Webpack and React
 
-This repo shows how to make [Rivet Icons](https://github.com/indiana-university/rivet-icons) part of a Webpack and React project.
+This repo shows how to make [Rivet Icons](https://github.com/indiana-university/rivet-icons) part of a [Webpack](https://webpack.js.org/) and [React](https://reactjs.org/) project.
 
 Goals:
 
@@ -167,4 +167,59 @@ import ReactDOM from 'react-dom'
 // Is interpreted as this:
 const React = window.React
 const ReactDOM = window.ReactDOM
+```
+
+At this point, React could be referenced by an external provider, like [UNPKG](https://unpkg.com/). These links go to the latest production bundles that can be used in any environment (the browser or Node).
+
+**Note:** These scripts are placed in `<head>` and use the [`defer` attribute](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/script#attr-defer). This means the scripts are requested early, they don't block rendering the rest of the page, and they get processed in declaration order after the page is loaded. It behaves similar to placing the scripts at the end of `<body>`, but since the network request happens earlier, it finishes faster.
+
+```html
+<head>
+  <script defer src="https://unpkg.com/react/umd/react.production.min.js"></script>
+  <script defer src="https://unpkg.com/react-dom/umd/react-dom.production.min.js"></script>
+</head>
+```
+
+While it is fine to use external services for some cases, for production, it is likely better to directly control and provide these resources. The application should declare these dependencies in the code, so then Webpack can essentially copy-and-paste the files into the out folder.
+
+Install React.
+
+```
+npm install --save react react-dom
+```
+
+In the entry file, import the production-ready React dependencies and add a `?asset` [resource query](https://webpack.js.org/configuration/module/#ruleresourcequery) to the end. This should be done only once in the application, and ideally as early as possible.
+
+```js
+// ./src/index.js
+import 'react/umd/react.production.min.js?asset'
+import 'react-dom/umd/react-dom.production.min.js?asset'
+```
+
+Resource queries provide a hook for Webpack to apply specific rules to the given import. The `?asset` query is a custom [Module Rule](https://webpack.js.org/configuration/module/#rule) that will copy the imported file to a `assets` folder in the out folder.
+
+```js
+{
+  module: {
+    rules: [
+      {
+        resourceQuery: /asset/,
+        type: 'asset/resource',
+        generator: {
+          filename: 'assets/[base]'
+        }
+      }
+    ]
+  }
+}
+```
+
+```js
+// ./src/index.js
+import 'react/umd/react.production.min.js?asset'
+import 'react-dom/umd/react-dom.production.min.js?asset'
+
+// Webpack outputs:
+// ./docs/assets/react.production.min.js
+// ./docs/assets/react-dom.production.min.js
 ```
