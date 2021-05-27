@@ -6,8 +6,10 @@ Goals:
 
 - Build a custom icon set, with select Rivet icons and custom icons.
 - Import icon dependencies with Webpack.
-- Use the `<rvt-icon>` custom element inside and outside of React.
-- Use icons without the `<rvt-icon>` custom element.
+- Use the `<rvt-icon>` custom element inside of React.
+- Use inline icons (without the `<rvt-icon>` custom element or SVG symbols).
+
+**Note:** The compiled project is in the `./docs` folder, which is used by GitHub Pages to publish it to the [demo site](https://basham.github.io/rivet-icons-webpack-react/).
 
 ## Contents
 
