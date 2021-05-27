@@ -1,0 +1,17 @@
+code {
+  background-color: #f7f7f7;
+  border-radius: 0.25rem;
+  color: #d14;
+  display: inline-block;
+  font-family: "SFMono-Regular", Consolas, Menlo, Courier, monospace;;
+  font-size: 1rem;
+  padding: 0 0.25rem;
+}
+
+.favorite__icon {
+  --rvt-icon: var(--heart);
+}
+
+.favorite[aria-pressed="true"] .favorite__icon {
+  --rvt-icon: var(--heart-solid);
+}

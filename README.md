@@ -24,7 +24,7 @@ Install `rivet-icons`.
 npm install --save rivet-icons
 ```
 
-Create a Node script to configure the icon set as desired. In this case, the only Rivet icons wanted are the arrow icons. Using a glob string (`arrow*`), all these icons can be included, without individually declaring each one. Output generated files to a `./build` folder. This async build function will automatically execute, whenever the script is called.
+Create a Node script to configure the icon set as desired. In this case, the only Rivet icons wanted are the heart icons. Using a glob string (`heart*`), all these icons can be included, without individually declaring each one. Output generated files to a `./build` folder. This async build function will automatically execute, whenever the script is called.
 
 ```js
 // ./scripts/icons.js
@@ -32,7 +32,7 @@ const { buildIcons } = require('rivet-icons')
 
 async function build () {
   await buildIcons({
-    icons: ['arrow*'],
+    icons: ['heart*'],
     out: 'build'
   })
 }
@@ -96,7 +96,7 @@ Configure Babel with a `.babelrc` file.
 }
 ```
 
-Configure Webpack with a `webpack.config.js` file. The entry point for the application will be `./src/index.js`, but it will be compiled to `./docs/app.js`. Any `.js` or `.jsx` files in the `./src` folder will be passed to Babel.
+Configure Webpack with a `webpack.config.js` file. The entry point for the application will be `./src/index.jsx`, but it will be compiled to `./docs/app.js`. Any `.js` or `.jsx` files in the `./src` folder will be passed to Babel.
 
 **Note:** An out folder other than `./docs` is likely more appropriate for a real project. The folder name is a limitation of using GitHub Pages to host the generated files. Additionally, the out folder should likely be added to `.gitignore`, to keep derived files out of the repo. It was not done in the case of this project, to make it easy to see the output, without installing the project.
 
@@ -109,7 +109,7 @@ const outPath = path.resolve('./docs')
 
 module.exports = {
   entry: {
-    app: path.resolve(srcPath, 'index.js')
+    app: path.resolve(srcPath, 'index.jsx')
   },
   output: {
     filename: `[name].js`,
@@ -200,7 +200,7 @@ npm install --save react react-dom
 In the entry file, import the production-ready React dependencies and add the [resource query](https://webpack.js.org/configuration/module/#ruleresourcequery) `?asset` to the end. This should be done only once in the application, and ideally as early as possible.
 
 ```js
-// ./src/index.js
+// ./src/index.jsx
 import 'react/umd/react.production.min.js?asset'
 import 'react-dom/umd/react-dom.production.min.js?asset'
 ```
@@ -225,7 +225,7 @@ Resource queries provide a hook for Webpack to apply specific rules to the given
 ```
 
 ```js
-// ./src/index.js
+// ./src/index.jsx
 import 'react/umd/react.production.min.js?asset'
 import 'react-dom/umd/react-dom.production.min.js?asset'
 
@@ -237,7 +237,7 @@ import 'react-dom/umd/react-dom.production.min.js?asset'
 This same resource query can be used to copy other assets, such as [Rivet's `rivet-core`](https://github.com/indiana-university/rivet-source) (make sure to install it), assets from `rivet-icon`, and custom build files.
 
 ```js
-// ./src/index.js
+// ./src/index.jsx
 import 'rivet-core/css/rivet.min.css?asset'
 import 'rivet-icons/dist/rivet-icon-element.js?asset'
 import 'rivet-icons/dist/rivet-icons.css?asset'
@@ -275,7 +275,7 @@ Now that Webpack is building and copying assets, the browser needs an entry poin
 </html>
 ```
 
-A new resource query can be used to copy files to the root of the out folder, rather than to the `assets` subfolder. This could be used for the index page.
+A new resource query can be used to copy files to the root of the out folder, rather than to the `assets` subfolder. This could be used for the index page and external styles.
 
 ```js
 // webpack.config.js
@@ -295,14 +295,16 @@ A new resource query can be used to copy files to the root of the out folder, ra
 ```
 
 ```js
-// ./src/index.js
+// ./src/index.jsx
 import './index.html?root'
+import './styles.css?root'
 
 // Webpack outputs:
 // ./docs/index.html
+// ./docs/styles.css
 ```
 
-Because all dependencies were imported with Webpack through the entry file (`./src/index.js`), Webpack Dev Server is aware of them and will serve them. Use the [`devServer.contentBase` configuration](https://webpack.js.org/configuration/dev-server/#devservercontentbase) if there are files needed to be included by Webpack Dev Server but excluded from the out folder.
+Because all dependencies were imported with Webpack through the entry file (`./src/index.jsx`), Webpack Dev Server is aware of them and will serve them. Use the [`devServer.contentBase` configuration](https://webpack.js.org/configuration/dev-server/#devservercontentbase) if there are files needed to be included by Webpack Dev Server but excluded from the out folder.
 
 Run the development environment. Confirm "Hello World" displays and that all resources are served.
 
@@ -319,7 +321,7 @@ Finally, set up a mount point for React and render to it. Confirm "Hello World, 
 ```
 
 ```js
-// ./src/index.js
+// ./src/index.jsx
 import React from 'react'
 import { render } from 'react-dom'
 

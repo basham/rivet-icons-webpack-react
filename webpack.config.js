@@ -5,7 +5,7 @@ const outPath = path.resolve('./docs')
 
 module.exports = {
   entry: {
-    app: path.resolve(srcPath, 'index.js')
+    app: path.resolve(srcPath, 'index.jsx')
   },
   externals: {
     react: 'React',

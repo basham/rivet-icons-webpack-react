@@ -5,27 +5,11 @@ import 'rivet-icons/dist/rivet-icon-element.js?asset'
 import 'rivet-icons/dist/rivet-icons.css?asset'
 import '../build/rivet-icons.js?asset'
 import './index.html?root'
+import './styles.css?root'
 
 import React from 'react'
 import { render } from 'react-dom'
-import heart from 'rivet-icons/dist/rvt-icon-heart.html'
-
-function HeartIcon () {
-  return (
-    <span
-      className='rvt-icon'
-      dangerouslySetInnerHTML={{ __html: heart }} />
-  )
-}
-
-function App () {
-  return (
-    <>
-      <rvt-icon name='arrow-down' />
-      <HeartIcon />
-    </>
-  )
-}
+import { App } from './components/App.jsx'
 
 render(
   <App />,

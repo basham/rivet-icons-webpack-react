@@ -2,7 +2,7 @@ const { buildIcons } = require('rivet-icons')
 
 async function build () {
   await buildIcons({
-    icons: ['arrow*'],
+    icons: ['heart*'],
     out: 'build'
   })
 }

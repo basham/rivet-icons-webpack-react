@@ -1,0 +1,7 @@
+.favorite__icon {
+  --rvt-icon: var(--heart);
+}
+
+.favorite[aria-pressed="true"] .favorite__icon {
+  --rvt-icon: var(--heart-solid);
+}
