@@ -26,7 +26,7 @@ Install `rivet-icons`.
 npm install --save rivet-icons
 ```
 
-Create a Node script to configure the icon set as desired. In this case, the only Rivet icons wanted are the heart icons. Using a glob string (`heart*`), all these icons can be included, without individually declaring each one. Output generated files to a `./build` folder. This async build function will automatically execute, whenever the script is called.
+Create a Node script to configure the icon set as desired. In this case, the only Rivet icons wanted are the heart icons. Using a glob string (`heart*`), all these icons can be included, without individually declaring each one. Custom icons in the `src/assets` folder are included as well. Output generated files to a `./build` folder. This async build function will automatically execute, whenever the script is called.
 
 ```js
 // ./scripts/icons.js
@@ -35,6 +35,7 @@ const { buildIcons } = require('rivet-icons')
 async function build () {
   await buildIcons({
     icons: ['heart*'],
+    include: ['src/assets/*'],
     out: 'build'
   })
 }
