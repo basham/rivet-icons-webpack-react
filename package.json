@@ -30,7 +30,7 @@
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "rivet-core": "2.0.0-alpha.5",
-    "rivet-icons": "github:basham/rivet-icons#feature/css-icons"
+    "rivet-icons": "1.0.0"
   },
   "devDependencies": {
     "@babel/core": "7.14.3",
