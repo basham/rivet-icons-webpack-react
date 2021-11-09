@@ -29,18 +29,18 @@
   "dependencies": {
     "react": "17.0.2",
     "react-dom": "17.0.2",
-    "rivet-core": "2.0.0-alpha.5",
+    "rivet-core": "2.0.0-alpha.8",
     "rivet-icons": "1.0.0"
   },
   "devDependencies": {
-    "@babel/core": "7.14.3",
-    "@babel/preset-env": "7.14.2",
-    "@babel/preset-react": "7.13.13",
-    "babel-loader": "8.2.2",
+    "@babel/core": "7.16.0",
+    "@babel/preset-env": "7.16.0",
+    "@babel/preset-react": "7.16.0",
+    "babel-loader": "8.2.3",
     "npm-run-all": "4.1.5",
     "rimraf": "3.0.2",
-    "webpack": "5.38.1",
-    "webpack-cli": "4.7.0",
-    "webpack-dev-server": "3.11.2"
+    "webpack": "5.62.2",
+    "webpack-cli": "4.9.1",
+    "webpack-dev-server": "4.4.0"
   }
 }
